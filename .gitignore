@@ -15,4 +15,4 @@
 *.bak
 
 # Private templates (not for public repo)
-plugins/sams-voice/templates/
+plugins/sams-voice/templates/team-voice-extraction-process.md
