@@ -1,4 +1,6 @@
-# Sam's Claude Skills
+# Claude Skills — Undercurrent Holdings Marketplace
+
+> Forked from [sam-dumont/claude-skills](https://github.com/sam-dumont/claude-skills). Upstream sync available.
 
 A marketplace collection of custom [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills.
 
@@ -18,14 +20,14 @@ Install skills directly from this GitHub repository using Claude Code's marketpl
 
 ```bash
 # Add this marketplace to Claude Code
-/plugin marketplace add sam-dumont/claude-skills
+/plugin marketplace add undercurrentai/claude-skills
 
 # Install specific skills
-/plugin install sams-voice@sams-skills
-/plugin install sams-architecture@sams-skills
-/plugin install outcome-engineering@sams-skills
-/plugin install technical-blog-post@sams-skills
-/plugin install sketch-checker@sams-skills
+/plugin install sams-voice@undercurrent-skills
+/plugin install sams-architecture@undercurrent-skills
+/plugin install outcome-engineering@undercurrent-skills
+/plugin install technical-blog-post@undercurrent-skills
+/plugin install sketch-checker@undercurrent-skills
 ```
 
 **That's it!** Skills are now available and auto-trigger when Claude detects matching prompts.
@@ -34,17 +36,17 @@ Install skills directly from this GitHub repository using Claude Code's marketpl
 
 ```bash
 # Update the marketplace to get latest versions
-/plugin marketplace update sams-skills
+/plugin marketplace update undercurrent-skills
 ```
 
 ### Remove Skills
 
 ```bash
 # Remove a specific skill
-/plugin uninstall sams-voice@sams-skills
+/plugin uninstall sams-voice@undercurrent-skills
 
 # Remove the entire marketplace
-/plugin marketplace remove sams-skills
+/plugin marketplace remove undercurrent-skills
 ```
 
 ## For Teams: Auto-Install Skills
@@ -54,19 +56,19 @@ Add to your project's `.claude/settings.json`:
 ```json
 {
   "extraKnownMarketplaces": {
-    "sams-skills": {
+    "undercurrent-skills": {
       "source": {
         "source": "github",
-        "repo": "sam-dumont/claude-skills"
+        "repo": "undercurrentai/claude-skills"
       }
     }
   },
   "enabledPlugins": {
-    "sams-voice@sams-skills": true,
-    "sams-architecture@sams-skills": true,
-    "outcome-engineering@sams-skills": true,
-    "technical-blog-post@sams-skills": true,
-    "sketch-checker@sams-skills": true
+    "sams-voice@undercurrent-skills": true,
+    "sams-architecture@undercurrent-skills": true,
+    "outcome-engineering@undercurrent-skills": true,
+    "technical-blog-post@undercurrent-skills": true,
+    "sketch-checker@undercurrent-skills": true
   }
 }
 ```
@@ -233,7 +235,7 @@ description: >
 6. Test locally:
 ```bash
 /plugin marketplace add ./
-/plugin install my-skill@sams-skills
+/plugin install my-skill@undercurrent-skills
 ```
 
 ## License

@@ -37,7 +37,7 @@ When a skill is added, removed, renamed, or has its description changed, ALL of 
 
 ### New Skill
 
-1. **Create** `plugins/{name}/.claude-plugin/plugin.json` — follow the exact schema of existing plugins (name, version "1.0.0", description, author Sam Dumont/sam@dropbars.be, homepage, repository, license MIT, keywords)
+1. **Create** `plugins/{name}/.claude-plugin/plugin.json` — follow the exact schema of existing plugins (name, version "1.0.0", description, author, homepage https://github.com/undercurrentai/claude-skills, repository, license MIT, keywords)
 2. **Create** `plugins/{name}/skills/{name}/SKILL.md` — YAML frontmatter with `name` and `description` (trigger patterns), then full skill content
 3. **Add entry** to `.claude-plugin/marketplace.json` in the `plugins` array — name, source (`./plugins/{name}`), description, version, author, keywords
 4. **Add skill** to `.github/workflows/release.yml` — both in the "Available Skills" list AND the installation commands block

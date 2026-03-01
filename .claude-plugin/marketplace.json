@@ -1,11 +1,11 @@
 {
-  "name": "sams-skills",
+  "name": "undercurrent-skills",
   "owner": {
-    "name": "Sam Dumont",
-    "email": "sam@dropbars.be"
+    "name": "Undercurrent Holdings",
+    "email": "josh@undercurrentholdings.com"
   },
   "metadata": {
-    "description": "Sam Dumont's personal collection of Claude Code skills for writing voice consistency and architectural patterns",
+    "description": "Undercurrent Holdings skill marketplace for Claude Code. Forked from sam-dumont/claude-skills.",
     "version": "1.6.0"
   },
   "plugins": [

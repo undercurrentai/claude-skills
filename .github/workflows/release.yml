@@ -51,7 +51,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add .claude-plugin/marketplace.json
+          for pj in plugins/*/.claude-plugin/plugin.json; do git add "$pj"; done
           git diff --staged --quiet && echo "No version changes to commit" || \
             git commit -m "Stamp all versions to ${{ steps.version.outputs.version }} [skip ci]"
           git push origin main
@@ -84,7 +85,7 @@ jobs:
 
             ### Available Skills
             - **sams-voice**: Writing voice and style (English/French)
-            - **sams-architecture**: Architectural patterns (Python/DevOps/Embedded)
+            - **sams-architecture**: Architectural patterns (Python/DevOps/Embedded/Frontend)
             - **outcome-engineering**: Outcome-first workflow framing (o16g)
             - **technical-blog-post**: Technical blog post writing from raw project data
             - **sketch-checker**: Metal band fascist ties research (NSBM/far-right vetting)
@@ -93,14 +94,14 @@ jobs:
 
             ```bash
             # Add marketplace
-            /plugin marketplace add sam-dumont/claude-skills
+            /plugin marketplace add undercurrentai/claude-skills
 
             # Install skills
-            /plugin install sams-voice@sams-skills
-            /plugin install sams-architecture@sams-skills
-            /plugin install outcome-engineering@sams-skills
-            /plugin install technical-blog-post@sams-skills
-            /plugin install sketch-checker@sams-skills
+            /plugin install sams-voice@undercurrent-skills
+            /plugin install sams-architecture@undercurrent-skills
+            /plugin install outcome-engineering@undercurrent-skills
+            /plugin install technical-blog-post@undercurrent-skills
+            /plugin install sketch-checker@undercurrent-skills
             ```
 
             ### What's Changed
