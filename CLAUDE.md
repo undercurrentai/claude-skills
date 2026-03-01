@@ -1,4 +1,6 @@
-# Claude Skills — Project Instructions
+# Claude Skills — Undercurrent Holdings Marketplace
+
+> Forked from [sam-dumont/claude-skills](https://github.com/sam-dumont/claude-skills). Upstream sync available.
 
 ## What This Repo Is
 
@@ -78,9 +80,10 @@ Update the description/keywords in ALL places where they appear:
 ## Conventions
 
 - **Plugin names**: kebab-case, matching directory name exactly
-- **Author**: Sam Dumont, sam@dropbars.be
+- **Fork maintainer**: Undercurrent Holdings (joshuakirby)
+- **Upstream author**: Sam Dumont, sam@dropbars.be
 - **License**: MIT (all plugins)
-- **Homepage/Repository**: https://github.com/sam-dumont/claude-skills
+- **Homepage/Repository**: https://github.com/undercurrentai/claude-skills (fork of sam-dumont/claude-skills)
 - **Commit messages**: Descriptive, explain the "why". Include `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>` when Claude assists.
 - **SKILL.md frontmatter `description`**: List all natural-language trigger phrases that should activate the skill. Be generous — include variations users might say.
 

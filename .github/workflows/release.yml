@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
           ref: main
@@ -76,7 +76,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
         with:
           name: Release ${{ steps.version.outputs.tag }}
           body: |
@@ -109,7 +109,7 @@ jobs:
 
             ---
 
-            **Full Changelog**: https://github.com/sam-dumont/claude-skills/commits/${{ steps.version.outputs.tag }}
+            **Full Changelog**: https://github.com/undercurrentai/claude-skills/commits/${{ steps.version.outputs.tag }}
           draft: false
           prerelease: false
           generate_release_notes: true
