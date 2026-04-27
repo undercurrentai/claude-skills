@@ -13,6 +13,7 @@ A marketplace collection of custom [Claude Code](https://docs.anthropic.com/en/d
 | **sams-architecture** | Codifies Sam's mature architectural patterns for Python APIs, infrastructure/DevOps, Garmin/embedded systems, and frontend projects. Enforces Service→Repository→Database pattern, 80% test coverage, comprehensive CI/CD, and zero-tolerance security standards. | architecture, python, devops, embedded, security, testing |
 | **outcome-engineering** | Reframes tasks as measurable outcomes using o16g principles. Adds outcome specification, execution guardrails, and validation to any workflow. | outcome-engineering, o16g, outcomes, verification |
 | **technical-blog-post** | Process skill for turning raw project data (research notes, session logs, drafts, code) into structured technical blog posts. Covers gathering, extraction, structure, and Astro frontmatter. | blog, writing, technical-writing, blog-post, astro, content |
+| **legal-voice** | Apply rigorous legal writing voice and style when drafting briefs, motions, contracts, memoranda, demand letters, client communications, and other legal documents. | writing, legal, voice, briefs, contracts, memoranda, litigation, transactional |
 | **sketch-checker** | Research whether a metal band has ties to far-right, NSBM, or fascist movements. Uses parallel research agents with tiered verdicts for both historical and current status. | metal, nsbm, black-metal, sketch, antifascist, rabm, music, research |
 
 ## Installation
@@ -29,6 +30,7 @@ Install skills directly from this GitHub repository using Claude Code's marketpl
 /plugin install sams-architecture@undercurrent-skills
 /plugin install outcome-engineering@undercurrent-skills
 /plugin install technical-blog-post@undercurrent-skills
+/plugin install legal-voice@undercurrent-skills
 /plugin install sketch-checker@undercurrent-skills
 ```
 
@@ -71,6 +73,7 @@ Add to your project's `.claude/settings.json`:
     "sams-architecture@undercurrent-skills": true,
     "outcome-engineering@undercurrent-skills": true,
     "technical-blog-post@undercurrent-skills": true,
+    "legal-voice@undercurrent-skills": true,
     "sketch-checker@undercurrent-skills": true
   }
 }
@@ -168,6 +171,22 @@ Process workflow:
 - **Phase 4: Voice Check** — Verify against `sams-voice` standards (no LLM-isms, real numbers, varied structure)
 - **Phase 5: Astro Frontmatter** — Correct metadata with back-publishing support
 
+### legal-voice
+
+Automatically triggered when drafting legal content like:
+- Briefs and motions
+- Contracts and contract language
+- Memoranda
+- Demand letters
+- Client letters and communications
+- Appellate briefs
+- Complaints and pleadings
+- Any document requiring legal precision and authority
+
+Applies a rigorous legal writing voice derived from authorities including Bryan Garner, Ross Guberman, Joseph Kimble, Richard Wydick, Justice Scalia, Kenneth Adams, and 30+ additional legal writing sources. Produces text that reads as it was drafted by an experienced, disciplined attorney — clear, precise, authoritative, and free of AI tells.
+
+Guiding principle: write for the reader, not the writer. Every word earns its place.
+
 ### sketch-checker
 
 Automatically triggered when:
@@ -220,6 +239,12 @@ claude-skills/
 │   │   │   └── plugin.json
 │   │   └── skills/
 │   │       └── technical-blog-post/
+│   │           └── SKILL.md
+│   ├── legal-voice/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   └── skills/
+│   │       └── legal-voice/
 │   │           └── SKILL.md
 │   └── sketch-checker/
 │       ├── .claude-plugin/

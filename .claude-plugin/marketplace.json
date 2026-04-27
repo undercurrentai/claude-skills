@@ -102,6 +102,25 @@
       ]
     },
     {
+      "name": "legal-voice",
+      "source": "./plugins/legal-voice",
+      "description": "Apply rigorous legal writing voice and style when drafting briefs, motions, contracts, memoranda, demand letters, client communications, and other legal documents.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Joshua Kirby"
+      },
+      "keywords": [
+        "writing",
+        "legal",
+        "voice",
+        "briefs",
+        "contracts",
+        "memoranda",
+        "litigation",
+        "transactional"
+      ]
+    },
+    {
       "name": "sketch-checker",
       "source": "./plugins/sketch-checker",
       "description": "Research whether a metal band has ties to far-right, NSBM, or fascist movements. Uses parallel research agents with tiered verdicts for both historical and current status.",

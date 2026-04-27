@@ -1,0 +1,21 @@
+{
+  "name": "legal-voice",
+  "version": "1.0.0",
+  "description": "Apply rigorous legal writing voice and style when drafting briefs, motions, contracts, memoranda, demand letters, client communications, and other legal documents. Produces text that reads like it was written by a top-tier attorney: clear, precise, authoritative, and free of AI tells.",
+  "author": {
+    "name": "Joshua Kirby"
+  },
+  "homepage": "https://github.com/undercurrentai/claude-skills",
+  "repository": "https://github.com/undercurrentai/claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "legal",
+    "voice",
+    "briefs",
+    "contracts",
+    "memoranda",
+    "litigation",
+    "transactional"
+  ]
+}
