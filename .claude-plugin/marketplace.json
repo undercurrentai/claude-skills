@@ -104,7 +104,7 @@
     {
       "name": "legal-voice",
       "source": "./plugins/legal-voice",
-      "description": "Apply rigorous legal writing voice and style when drafting briefs, motions, contracts, memoranda, demand letters, client communications, and other legal documents.",
+      "description": "Apply rigorous legal writing voice and style when drafting briefs, motions, contracts, memoranda, demand letters, client communications, and other legal documents. Produces text that reads like it was written by a top-tier attorney: clear, precise, authoritative, and free of AI tells.",
       "version": "1.0.0",
       "author": {
         "name": "Joshua Kirby"

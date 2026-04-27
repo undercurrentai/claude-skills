@@ -63,7 +63,7 @@ have no carve-outs:
    - "The catch? Everything."
    - "The kicker? It worked."
    NEVER. Distinct from rhetorical-question hinges, which Josh genuinely uses (see
-   carve-out 9.4).
+   Carve-out 4).
 
 3. **"Not X. Not Y. Just Z." dramatic countdown.** NEVER.
 
@@ -904,25 +904,32 @@ Use Mode 3.
 - **No Latin or foreign-language closers.** Per Carve-out 6 (banned entirely).
 - Image-based closings, not thesis-based.
 
-### Slack / Internal Communications (INFERRED)
-
-<!-- INFERRED — validate via Pass 3 -->
+### Slack / Internal Communications (validated by Pass 3 calibration sample 4)
 
 - Lead with substance, not greeting filler.
 - Architecture compressed; medium and short sentences dominate.
 - Personality breakthroughs OK at low frequency.
 - Code blocks for technical references.
 - Action items clear: who does what.
+- **No em-dash after the greeting line.** Use comma or period: "Hey team, kicking
+  off..." not "Hey team — kicking off...". Per Mode 4.
+- Em-dashes permitted in body at low density per Carve-out 1.
+- Direct close ("ping me directly, not the channel"); no formulaic sign-off.
 
-### Professional / Client Email (INFERRED)
+### Professional / Client Email (validated by Pass 3 calibration sample 5)
 
-<!-- INFERRED — validate via Pass 3 -->
-
-- One-line polite opening, then substance.
+- **Compressed opening sentence.** No long subordinate-clause stack in the greeting
+  paragraph. Write "Quick update on the API spec." not "I want to be straightforward
+  with you about why before you hear it from anyone else..." — that lands as
+  essay-flavored, not as client email. Per Mode 5.
 - Architecture moderate. Some long sentences for context; mostly medium.
-- Pivot words natural.
+- Pivot words natural; "Rather" especially useful for stating the choice you made.
+- Em dashes OK at low density per Carve-out 1.
+- **ALL CAPS NOT appropriate in this mode (zero instances).** Per Mode 5 / Carve-out 5.
+- Tricolons rare.
 - No formulaic closings ("Don't hesitate to reach out" — banned).
-- Direct close.
+- **Sign-off: "Sincerely, Josh"** as default. Reserve "Best," for casual peer
+  correspondence; never first-name-only for client work. Per Mode 5.
 
 ### Technical Documentation (INFERRED)
 
