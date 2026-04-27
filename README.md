@@ -9,6 +9,7 @@ A marketplace collection of custom [Claude Code](https://docs.anthropic.com/en/d
 | Skill | Description | Tags |
 |-------|-------------|------|
 | **sams-voice** | Apply Sam Dumont's personal writing voice and style when drafting any written content. Works in English and French. | writing, style, voice, communication |
+| **joshs-voice** | Apply Joshua Kirby's personal writing voice and style when drafting essays, reflections, blog posts, theological/philosophical writing, personal essays, literary meditations, or any extended prose. English only. | writing, style, voice, essays, personal, reflective, theological, philosophical |
 | **sams-architecture** | Codifies Sam's mature architectural patterns for Python APIs, infrastructure/DevOps, Garmin/embedded systems, and frontend projects. Enforces Service→Repository→Database pattern, 80% test coverage, comprehensive CI/CD, and zero-tolerance security standards. | architecture, python, devops, embedded, security, testing |
 | **outcome-engineering** | Reframes tasks as measurable outcomes using o16g principles. Adds outcome specification, execution guardrails, and validation to any workflow. | outcome-engineering, o16g, outcomes, verification |
 | **technical-blog-post** | Process skill for turning raw project data (research notes, session logs, drafts, code) into structured technical blog posts. Covers gathering, extraction, structure, and Astro frontmatter. | blog, writing, technical-writing, blog-post, astro, content |
@@ -24,6 +25,7 @@ Install skills directly from this GitHub repository using Claude Code's marketpl
 
 # Install specific skills
 /plugin install sams-voice@undercurrent-skills
+/plugin install joshs-voice@undercurrent-skills
 /plugin install sams-architecture@undercurrent-skills
 /plugin install outcome-engineering@undercurrent-skills
 /plugin install technical-blog-post@undercurrent-skills
@@ -65,6 +67,7 @@ Add to your project's `.claude/settings.json`:
   },
   "enabledPlugins": {
     "sams-voice@undercurrent-skills": true,
+    "joshs-voice@undercurrent-skills": true,
     "sams-architecture@undercurrent-skills": true,
     "outcome-engineering@undercurrent-skills": true,
     "technical-blog-post@undercurrent-skills": true,
@@ -93,6 +96,29 @@ Applies Sam's voice characteristics:
 - Authentic personality (humor, strong opinions)
 - Code-first examples
 - Bilingual support (English/French)
+
+### joshs-voice
+
+Automatically triggered when drafting written content like:
+- Essays and reflective prose
+- Theological and philosophical writing
+- Personal essays and reflections
+- Literary meditations
+- Blog posts and op-eds
+- Long-form letters
+- Internal documentation requiring extended prose
+
+Applies Josh's voice characteristics:
+- Long architectural sentences with multiple subordinate clauses, punctuated by short emphatic ones (~20/50/30 short/medium/architectural mix)
+- Repetition with variation as a paragraph engine ("God is love. God loved. God loves.")
+- Periodic and cumulative constructions; comfort with paradox
+- Old-school paragraph pivots ("Therefore", "Furthermore", "However", "Rather", "Yet")
+- Rhetorical questions as paragraph hinges (not setup-and-stall gimmicks)
+- Register-shift breakthroughs from formal-academic to colloquial fire (in personal/argumentative mode)
+- Em dashes, tricolons, and ALL CAPS used sparingly per frequency-rule carve-outs
+- Mirror/chiastic closings, never Hollywood futures or "In summary"
+- Hard bans on 2025-2026 structural AI tells (contrastive negation, Q+fragment-answer, polish-clause em-dashes, etc.)
+- English only
 
 ### sams-architecture
 
@@ -171,6 +197,12 @@ claude-skills/
 │   │   │   └── sams-voice/
 │   │   │       └── SKILL.md      # Skill definition
 │   │   └── templates/            # Supporting materials
+│   ├── joshs-voice/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   └── skills/
+│   │       └── joshs-voice/
+│   │           └── SKILL.md
 │   ├── sams-architecture/
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json

@@ -85,6 +85,7 @@ jobs:
 
             ### Available Skills
             - **sams-voice**: Writing voice and style (English/French)
+            - **joshs-voice**: Writing voice and style for Joshua Kirby (English; essays/reflective prose/theological/philosophical)
             - **sams-architecture**: Architectural patterns (Python/DevOps/Embedded/Frontend)
             - **outcome-engineering**: Outcome-first workflow framing (o16g)
             - **technical-blog-post**: Technical blog post writing from raw project data
@@ -98,6 +99,7 @@ jobs:
 
             # Install skills
             /plugin install sams-voice@undercurrent-skills
+            /plugin install joshs-voice@undercurrent-skills
             /plugin install sams-architecture@undercurrent-skills
             /plugin install outcome-engineering@undercurrent-skills
             /plugin install technical-blog-post@undercurrent-skills

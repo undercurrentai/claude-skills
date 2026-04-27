@@ -27,6 +27,25 @@
       ]
     },
     {
+      "name": "joshs-voice",
+      "source": "./plugins/joshs-voice",
+      "description": "Apply Joshua Kirby's personal writing voice and style when drafting essays, reflections, blog posts, theological/philosophical writing, personal essays, literary meditations, or any extended prose. English only.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Joshua Kirby"
+      },
+      "keywords": [
+        "writing",
+        "style",
+        "voice",
+        "essays",
+        "personal",
+        "reflective",
+        "theological",
+        "philosophical"
+      ]
+    },
+    {
       "name": "sams-architecture",
       "source": "./plugins/sams-architecture",
       "description": "Codifies Sam's mature architectural patterns for Python APIs, infrastructure/DevOps, Garmin/embedded systems, and frontend projects. Enforces Service→Repository→Database pattern, 80% test coverage, comprehensive CI/CD, and zero-tolerance security standards.",
