@@ -1,20 +1,31 @@
 name: Release
 
-# KNOWN ORG LIMITATION: tag-push events DO NOT fire workflows in the
-# undercurrentai org (verified 2026-04-28 across 9 test tags). Tag DELETE
-# events appear in the events feed normally; tag CREATE events are
-# systematically filtered before reaching the Actions runtime. Root cause
-# is org-level (invisible to gh CLI / REST API). Until that is resolved
-# via GitHub Support, the path to release is:
+# KNOWN ORG LIMITATION (2026-04-28 investigation):
+# Tag CREATE events are filtered at the org level — they don't generate
+# workflow runs even though tag DELETE events do appear normally. Verified
+# across 9 test tags. ReleaseEvents (action=published) DO fire reliably,
+# both when triggered manually (gh release create) and when created by
+# softprops/action-gh-release inside this workflow.
+#
+# Three auto-trigger paths are supported:
+#   (A) push:tags    — preserved for when the org filter is fixed; currently inert
+#   (B) release:published — fires when a release is published (manual or
+#       auto-created here). Recursion guard: skip when the publisher is
+#       github-actions[bot] AND this is not the first publish (i.e., when
+#       this workflow itself just created the release as a side effect).
+#   (C) workflow_dispatch — manual fallback; takes a `tag` input.
+#
+# Recommended flow:
 #   1. git tag -a vX.Y.Z -m "..." && git push origin vX.Y.Z
-#   2. gh workflow run release.yml --ref main -f tag=vX.Y.Z
-# The push:tags trigger below is preserved so the workflow self-heals
-# when the org-level filter is fixed.
+#   2. gh release create vX.Y.Z --generate-notes  (this fires path B)
+#   OR step 2: gh workflow run release.yml --ref main -f tag=vX.Y.Z  (path C)
 
 on:
   push:
     tags:
       - 'v*.*.*'
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       tag:
@@ -27,16 +38,30 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    # Recursion guard for path B: when this workflow itself creates a release
+    # via softprops/action-gh-release, the release-event would trigger the
+    # workflow again. Skip if the release was created by github-actions[bot]
+    # AND we're being triggered by the release event (i.e., not by manual
+    # workflow_dispatch where the bot identity is irrelevant).
+    if: |
+      github.event_name == 'workflow_dispatch'
+      || github.event_name == 'push'
+      || (github.event_name == 'release' && github.event.sender.login != 'github-actions[bot]')
 
     steps:
       - name: Resolve tag from trigger
         id: resolve
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            TAG="${{ inputs.tag }}"
-          else
-            TAG="${GITHUB_REF#refs/tags/}"
-          fi
+          case "${{ github.event_name }}" in
+            workflow_dispatch)
+              TAG="${{ inputs.tag }}" ;;
+            release)
+              TAG="${{ github.event.release.tag_name }}" ;;
+            push)
+              TAG="${GITHUB_REF#refs/tags/}" ;;
+            *)
+              echo "::error::Unknown event ${{ github.event_name }}"; exit 1 ;;
+          esac
           VERSION="${TAG#v}"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
@@ -134,7 +159,12 @@ jobs:
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+      # Skip release creation when triggered by 'release:published' — the
+      # release already exists; just stamping versions is the work to do.
+      # When triggered by workflow_dispatch or push:tags, the release does
+      # NOT yet exist and softprops/action-gh-release creates it.
       - name: Create GitHub Release
+        if: github.event_name != 'release'
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
         with:
           tag_name: ${{ steps.resolve.outputs.tag }}
