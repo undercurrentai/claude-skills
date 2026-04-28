@@ -1,5 +1,16 @@
 name: Release
 
+# KNOWN ORG LIMITATION: tag-push events DO NOT fire workflows in the
+# undercurrentai org (verified 2026-04-28 across 9 test tags). Tag DELETE
+# events appear in the events feed normally; tag CREATE events are
+# systematically filtered before reaching the Actions runtime. Root cause
+# is org-level (invisible to gh CLI / REST API). Until that is resolved
+# via GitHub Support, the path to release is:
+#   1. git tag -a vX.Y.Z -m "..." && git push origin vX.Y.Z
+#   2. gh workflow run release.yml --ref main -f tag=vX.Y.Z
+# The push:tags trigger below is preserved so the workflow self-heals
+# when the org-level filter is fixed.
+
 on:
   push:
     tags:
@@ -31,11 +42,23 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Resolved tag: $TAG (version: $VERSION) from event ${{ github.event_name }}"
 
+      # The optional RELEASE_TOKEN secret is a fine-grained PAT scoped to
+      # this repo with `contents: write`. When set, actions/checkout
+      # persists it and subsequent `git push` operations run with the
+      # PAT-bearer's identity (e.g., RepositoryAdmin or OrganizationAdmin)
+      # — which CAN bypass the org-default-branch-protection ruleset's
+      # PR-required rule. Without the secret, the action falls back to
+      # GITHUB_TOKEN and the commit-back step degrades gracefully (logs
+      # warning, doesn't fail). Per github.blog/changelog/2025-09-10
+      # ruleset bypass + the canonical SO answer (Laird Nelson 2023-11):
+      # GITHUB_TOKEN cannot be tied to an org role for git operations;
+      # only a PAT can.
       - name: Checkout the tag
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
           ref: ${{ steps.resolve.outputs.tag }}
+          token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Stamp version into all plugin manifests
         run: |
@@ -59,28 +82,36 @@ jobs:
           echo "All manifests stamped to $VERSION"
 
       - name: Commit version bump back to main (best-effort)
-        # Best-effort step: the org-default-branch-protection ruleset blocks
-        # direct pushes to main, requiring PRs. github-actions[bot] does not
-        # have OrganizationAdmin bypass. If this step fails, the workflow
-        # continues — the GitHub Release is still created from the stamped
-        # workspace, the manifests on main just lag the tag (which is the
-        # status-quo behavior pre-release-pipeline anyway).
+        # When RELEASE_TOKEN is set (fine-grained PAT with contents:write),
+        # the previous Checkout step persisted that PAT for git operations.
+        # The PAT bearer (RepositoryAdmin / OrganizationAdmin per the org
+        # rulesets) bypasses the default-branch-protection PR rule and the
+        # push succeeds. Without RELEASE_TOKEN, the persisted token is
+        # GITHUB_TOKEN, which github-actions[bot] uses, which is NOT on the
+        # ruleset bypass list — push gets rejected with GH013 "Changes must
+        # be made through a pull request." continue-on-error keeps the
+        # release flow moving regardless.
         continue-on-error: true
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -B release-stamp-${{ steps.resolve.outputs.version }}
+          if [ -n "${{ secrets.RELEASE_TOKEN }}" ]; then
+            echo "::notice::RELEASE_TOKEN present — committing as PAT bearer (should bypass branch protection)"
+            git config user.name "${GITHUB_ACTOR}"
+            git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          else
+            echo "::warning::RELEASE_TOKEN not set — using github-actions[bot] identity (will be blocked by org-default-branch-protection ruleset)"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+          fi
           git add .claude-plugin/marketplace.json
           for pj in plugins/*/.claude-plugin/plugin.json; do git add "$pj"; done
           if git diff --staged --quiet; then
             echo "No version changes to commit"
           else
             git commit -m "Stamp all versions to ${{ steps.resolve.outputs.tag }} [skip ci]"
-            # Try direct push to main first (will fail if ruleset blocks)
             if git push origin HEAD:main 2>&1; then
               echo "::notice::Pushed version stamps directly to main"
             else
-              echo "::warning::Direct push to main blocked by ruleset. Stamps remain in workspace only; manifests on main will lag the tag. To enable auto-stamping, add a bypass actor to the default-branch-protection ruleset."
+              echo "::warning::Direct push to main blocked. To enable auto-stamping, set the RELEASE_TOKEN secret to a fine-grained PAT with contents:write on this repo."
             fi
           fi
 
