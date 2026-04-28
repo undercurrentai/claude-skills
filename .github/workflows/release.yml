@@ -1,24 +1,30 @@
 name: Release
 
 # KNOWN ORG LIMITATION (2026-04-28 investigation):
-# Tag CREATE events are filtered at the org level — they don't generate
-# workflow runs even though tag DELETE events do appear normally. Verified
-# across 9 test tags. ReleaseEvents (action=published) DO fire reliably,
-# both when triggered manually (gh release create) and when created by
-# softprops/action-gh-release inside this workflow.
+# This org filters multiple event types from reaching the Actions
+# triggering layer, despite the events appearing in the public events
+# feed. Confirmed broken paths (do NOT fire workflow runs):
+#   - push:tags    — tag CREATE events filtered (CreateEvent suppressed
+#                    at the trigger layer; verified across 9 test tags)
+#   - release:created/published/released — release events also filtered
+#                    (ReleaseEvent appears in feed but no workflow run is
+#                    created; verified across 4 release events 2026-04-28)
+# Working paths:
+#   - workflow_dispatch — fires reliably; the canonical release path.
+#   - push:branches:[main] — fires reliably (CodeQL-on-push works fine).
 #
-# Three auto-trigger paths are supported:
-#   (A) push:tags    — preserved for when the org filter is fixed; currently inert
-#   (B) release:published — fires when a release is published (manual or
-#       auto-created here). Recursion guard: skip when the publisher is
-#       github-actions[bot] AND this is not the first publish (i.e., when
-#       this workflow itself just created the release as a side effect).
-#   (C) workflow_dispatch — manual fallback; takes a `tag` input.
+# Root cause is org-level (invisible to gh CLI / REST API even with
+# admin:org scope). Likely an audit-log-only or webhook-routing-layer
+# setting; remediation requires GitHub Support investigation.
 #
-# Recommended flow:
-#   1. git tag -a vX.Y.Z -m "..." && git push origin vX.Y.Z
-#   2. gh release create vX.Y.Z --generate-notes  (this fires path B)
-#   OR step 2: gh workflow run release.yml --ref main -f tag=vX.Y.Z  (path C)
+# Until that is fixed, the canonical release flow is:
+#   git tag -a vX.Y.Z -m "..."
+#   git push origin vX.Y.Z
+#   gh workflow run release.yml --ref main -f tag=vX.Y.Z
+#
+# The push:tags and release:* triggers below are preserved so the
+# workflow self-heals when the org filter is removed; both are currently
+# inert in this org but valid in any other repo.
 
 on:
   push:
