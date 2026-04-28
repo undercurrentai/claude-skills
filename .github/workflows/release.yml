@@ -18,23 +18,28 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          fetch-depth: 0
-          ref: main
-
-      - name: Extract version from tag
-        id: version
+      - name: Resolve tag from trigger
+        id: resolve
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${GITHUB_REF#refs/tags/}"
+          fi
           VERSION="${TAG#v}"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Resolved tag: $TAG (version: $VERSION) from event ${{ github.event_name }}"
+
+      - name: Checkout the tag
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+          ref: ${{ steps.resolve.outputs.tag }}
 
       - name: Stamp version into all plugin manifests
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
+          VERSION="${{ steps.resolve.outputs.version }}"
 
           # Update marketplace metadata version
           jq --arg v "$VERSION" '.metadata.version = $v' .claude-plugin/marketplace.json > tmp.json && mv tmp.json .claude-plugin/marketplace.json
@@ -53,28 +58,44 @@ jobs:
 
           echo "All manifests stamped to $VERSION"
 
-      - name: Commit version bump back to main
+      - name: Commit version bump back to main (best-effort)
+        # Best-effort step: the org-default-branch-protection ruleset blocks
+        # direct pushes to main, requiring PRs. github-actions[bot] does not
+        # have OrganizationAdmin bypass. If this step fails, the workflow
+        # continues — the GitHub Release is still created from the stamped
+        # workspace, the manifests on main just lag the tag (which is the
+        # status-quo behavior pre-release-pipeline anyway).
+        continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B release-stamp-${{ steps.resolve.outputs.version }}
           git add .claude-plugin/marketplace.json
           for pj in plugins/*/.claude-plugin/plugin.json; do git add "$pj"; done
-          git diff --staged --quiet && echo "No version changes to commit" || \
-            git commit -m "Stamp all versions to ${{ steps.version.outputs.version }} [skip ci]"
-          git push origin main
+          if git diff --staged --quiet; then
+            echo "No version changes to commit"
+          else
+            git commit -m "Stamp all versions to ${{ steps.resolve.outputs.tag }} [skip ci]"
+            # Try direct push to main first (will fail if ruleset blocks)
+            if git push origin HEAD:main 2>&1; then
+              echo "::notice::Pushed version stamps directly to main"
+            else
+              echo "::warning::Direct push to main blocked by ruleset. Stamps remain in workspace only; manifests on main will lag the tag. To enable auto-stamping, add a bypass actor to the default-branch-protection ruleset."
+            fi
+          fi
 
       - name: Get commit messages since last tag
         id: changelog
         run: |
-          # Get previous tag
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          # Get previous tag (the one before the tag we're releasing)
+          PREV_TAG=$(git describe --tags --abbrev=0 ${{ steps.resolve.outputs.tag }}^ 2>/dev/null || echo "")
 
           if [ -z "$PREV_TAG" ]; then
             # First release - get all commits
-            CHANGELOG=$(git log --pretty=format:"- %s" --no-merges)
+            CHANGELOG=$(git log --pretty=format:"- %s" --no-merges ${{ steps.resolve.outputs.tag }})
           else
             # Get commits between previous tag and current
-            CHANGELOG=$(git log ${PREV_TAG}..HEAD --pretty=format:"- %s" --no-merges)
+            CHANGELOG=$(git log ${PREV_TAG}..${{ steps.resolve.outputs.tag }} --pretty=format:"- %s" --no-merges)
           fi
 
           # Save to output (handle multiline)
@@ -85,7 +106,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
         with:
-          name: Release ${{ steps.version.outputs.tag }}
+          tag_name: ${{ steps.resolve.outputs.tag }}
+          name: Release ${{ steps.resolve.outputs.tag }}
           body: |
             ## Claude Code Skills Marketplace Release
 
@@ -120,7 +142,7 @@ jobs:
 
             ---
 
-            **Full Changelog**: https://github.com/undercurrentai/claude-skills/commits/${{ steps.version.outputs.tag }}
+            **Full Changelog**: https://github.com/undercurrentai/claude-skills/commits/${{ steps.resolve.outputs.tag }}
           draft: false
           prerelease: false
           generate_release_notes: true
