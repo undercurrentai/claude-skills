@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Undercurrent Holdings skill marketplace for Claude Code. Forked from sam-dumont/claude-skills.",
-    "version": "1.6.0"
+    "version": "1.7.3"
   },
   "plugins": [
     {
       "name": "sams-voice",
       "source": "./plugins/sams-voice",
       "description": "Apply Sam Dumont's personal writing voice and style when drafting any written content. Works in English and French.",
-      "version": "1.6.0",
+      "version": "1.7.3",
       "author": {
         "name": "Sam Dumont"
       },
@@ -30,7 +30,7 @@
       "name": "joshs-voice",
       "source": "./plugins/joshs-voice",
       "description": "Apply Joshua Kirby's personal writing voice and style when drafting essays, reflections, blog posts, theological/philosophical writing, personal essays, literary meditations, or any extended prose. English only.",
-      "version": "1.0.0",
+      "version": "1.7.3",
       "author": {
         "name": "Joshua Kirby"
       },
@@ -49,7 +49,7 @@
       "name": "sams-architecture",
       "source": "./plugins/sams-architecture",
       "description": "Codifies Sam's mature architectural patterns for Python APIs, infrastructure/DevOps, Garmin/embedded systems, and frontend projects. Enforces Service→Repository→Database pattern, 80% test coverage, comprehensive CI/CD, and zero-tolerance security standards.",
-      "version": "1.6.0",
+      "version": "1.7.3",
       "author": {
         "name": "Sam Dumont"
       },
@@ -71,7 +71,7 @@
       "name": "outcome-engineering",
       "source": "./plugins/outcome-engineering",
       "description": "Reframes tasks as measurable outcomes using o16g principles. Adds outcome specification, execution guardrails, and validation to any workflow.",
-      "version": "1.6.0",
+      "version": "1.7.3",
       "author": {
         "name": "Sam Dumont"
       },
@@ -88,7 +88,7 @@
       "name": "technical-blog-post",
       "source": "./plugins/technical-blog-post",
       "description": "Process skill for turning raw project data into structured technical blog posts. Covers gathering, extraction, structure, and Astro frontmatter.",
-      "version": "1.6.0",
+      "version": "1.7.3",
       "author": {
         "name": "Sam Dumont"
       },
@@ -105,7 +105,7 @@
       "name": "legal-voice",
       "source": "./plugins/legal-voice",
       "description": "Apply rigorous legal writing voice and style when drafting briefs, motions, contracts, memoranda, demand letters, client communications, and other legal documents. Produces text that reads like it was written by a top-tier attorney: clear, precise, authoritative, and free of AI tells.",
-      "version": "1.0.0",
+      "version": "1.7.3",
       "author": {
         "name": "Joshua Kirby"
       },
@@ -124,7 +124,7 @@
       "name": "sketch-checker",
       "source": "./plugins/sketch-checker",
       "description": "Research whether a metal band has ties to far-right, NSBM, or fascist movements. Uses parallel research agents with tiered verdicts for both historical and current status.",
-      "version": "1.0.0",
+      "version": "1.7.3",
       "author": {
         "name": "Sam Dumont"
       },
