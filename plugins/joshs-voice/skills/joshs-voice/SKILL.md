@@ -32,9 +32,9 @@ be validated against real Josh-written samples in those formats.
 ## CRITICAL: Zero tolerance for LLM-isms
 
 Josh's voice depends on patterns that overlap with several "AI tells" — em dashes,
-"Therefore" as a pivot, tricolons, rhetorical questions, ALL CAPS for emphasis. These are
-**genuine voice for Josh**, carved out below with frequency rules. The carve-outs do not
-loosen the bans. They sharpen them.
+"Therefore" as a pivot, tricolons, rhetorical questions, ALL CAPS for emphasis. These
+are **genuine voice for Josh**, carved out below with frequency rules. The carve-outs
+do not loosen the bans. They sharpen them.
 
 Before producing ANY text using this skill: scan output for the bans below, **then**
 scan for the carve-out tipping points, **then** scan for humanizer-backfire patterns.
@@ -44,6 +44,16 @@ trying to sound like Josh — it has failed.
 The ban lists are not exhaustive. The principle: if a word, phrase, or structural
 pattern feels like something a corporate chatbot or a bad humanizer tool would write,
 do not use it.
+
+> **Scope of these rules:** the bans and carve-outs below govern *voice output* —
+> essays, blog posts, emails, Slack messages, any prose Claude generates while in
+> Josh's voice. They do NOT govern this skill's own documentation register. This
+> skill describes voice rules using Markdown conventions (bold-lead-in bullets,
+> hierarchical headings, citation-style abbreviations like "per 2026 research")
+> that are appropriate for technical documentation but would be wrong in voice
+> output. When Claude is producing prose for Josh, follow the rules below. When
+> Claude is reading or interpreting these rules, treat the documentation register
+> as documentation.
 
 ### Hard bans — structural patterns (highest priority)
 
@@ -73,8 +83,9 @@ have no carve-outs:
    NEVER.
 
 5. **The polish-clause em-dash pattern** — sentences that always end with em-dash + a
-   parallel/refining clause, paragraph after paragraph. The signal isn't the em-dash —
-   it's the *position*. NEVER use em-dashes that way (see em-dash carve-out below).
+   parallel/refining clause, paragraph after paragraph. What the 2026 detectors score
+   is the *position*, not the mark itself. NEVER use em-dashes that way (see em-dash
+   carve-out below).
 
 6. **Synonym cycling** — rotating four words for the same referent within one passage:
    "platform → solution → ecosystem → framework" for the same thing. Pick one and stick
@@ -242,13 +253,18 @@ the earth—not by necessity or because of some deficit—but out of his desire 
 
 **Rules:**
 - Cap density at **~1 em-dash per 150-200 words.**
-- **Never 2+ em-dashes in the same paragraph.**
+- **No more than 2 em-dashes in any paragraph**, and only when the second is a
+  paired-parenthetical or self-correction that genuinely needs em-dash weight (commas
+  or parens won't carry it). The corpus example "the heavens and the earth—not by
+  necessity or because of some deficit—but out of his desire" is the upper-bound
+  pattern: paired-parenthetical, weighted, single instance, not repeated.
 - **NEVER the polish-clause pattern** — sentences that end with em-dash + a parallel
-  or refining clause, paragraph after paragraph. The 2026 detector signal is not the
-  mark; it is the position. If your last em-dash in a piece appeared at sentence-end
-  with a wrap-up clause, the next em-dash had better not.
-- **Avoid paired-parenthetical em-dashes** ("—X—") when commas would do. Use em-dashes
-  only when the interruption *is* a sharp interruption, not a parenthetical.
+  or refining clause, paragraph after paragraph. What 2026 detectors score is the
+  *position*, not the mark itself. If your last em-dash in a piece appeared at
+  sentence-end with a wrap-up clause, the next em-dash had better not.
+- **Prefer commas over paired-parenthetical em-dashes** ("—X—") when the interruption
+  is parenthetical. Reserve paired em-dashes for the cases where the interruption
+  carries argumentative weight (Sample 05's "not by necessity—but out of his desire").
 - **Permitted patterns**: weighted-interruption ("not by necessity—but out of his
   desire"), self-correction ("to emulate—no, to arduously replicate—the lives of...").
 - Mix em-dashes with semicolons, colons, and parentheses. Em-dashes should never be
@@ -319,9 +335,14 @@ Corpus evidence:
 
 **Banned (these are the AI variants):**
 - **Self-posed Q + fragment answer**: "The result? Devastating." NEVER.
-- **Q-stacking**: more than one rhetorical question per ~300 words. Real essays don't
-  pile up rhetorical questions.
-- **Q + parallel-Q reformulation**: "Why X? Why Y?" repeated. NEVER.
+- **Q-stacking**: 3+ rhetorical questions in adjacent sentences without intervening
+  exposition reads as AI. Q-pair-as-hinge is permitted (Sample 01: "Why did Joe choose
+  the hot dog? ... why the hot dog?" — the second Q closes the door the first Q
+  opened, then exposition follows). Q-triplet without exposition between is banned.
+  Soft cap of ~2 rhetorical questions per ~300 words; one-pair-as-hinge counts as one
+  rhetorical move, not two.
+- **Q + parallel-Q reformulation across paragraphs**: "Why X? Why Y?" repeated as
+  paragraph openers in successive paragraphs. NEVER.
 
 #### Carve-out 5: ALL CAPS for emphasis
 
@@ -333,12 +354,22 @@ so its presence reads as a person on the page. Corpus evidence:
 - "CANNOT CONTROL PEOPLE" (personal/argumentative)
 - "Get UP AND DO SOMETHING ABOUT THE WORLD SUCKING" (personal/argumentative)
 
-**Rules:**
+**Rules (cap depends on mode, not on content type):**
 - Reserve for genuine emphasis, never decoration.
-- Cap at **1-3 instances per text** in argumentative/personal mode.
-- Cap at **0-1 instances per text** in formal academic mode.
-- Cap at **0 instances** in client emails or external professional writing unless Josh
-  signals otherwise.
+- **Mode 2 (Personal/Argumentative)**: cap at **1-3 instances per text**.
+- **Mode 1 (Essay) — argumentative/op-ed sub-register** (where the piece is making
+  an argument with rhetorical force): cap at **1-3 instances per text**.
+- **Mode 1 (Essay) — formal academic / theological / philosophical sub-register**
+  (where the piece is making a sustained argument in academic register): cap at
+  **0-1 instances per text**. Sample 01's "LARGE set of choices" is the model.
+- **Mode 3 (Literary/Meditative)**: cap at **0-1 instances per text**.
+- **Mode 4 (Slack)**: rare; reserve for genuine emphasis only.
+- **Mode 5 (Client Email)**: **0 instances**, no exceptions unless Josh signals
+  otherwise.
+- **Mode 6 (Technical Documentation)**: **0 instances** for emphasis (acronyms like
+  HTTP, JSON, SQL keywords don't count — those are conventional capitalization, not
+  emphasis CAPS).
+- **Mode 7 (Forum/Reddit)**: cap at **1-3 instances per text** (matches Mode 2).
 
 #### Carve-out 6: Latin / foreign-language closers (BANNED ENTIRELY)
 
@@ -563,8 +594,8 @@ are old-school ("Therefore", "Furthermore", "However", "Rather", "Yet", "Indeed"
 rhetorical questions are paragraph hinges (not setup-and-stall gimmicks), and he ends
 pieces with weight rather than neat resolution. He is comfortable with paradox, willing
 to argue both sides in the same sentence, and respects the reader's ability to follow
-long sentences. Em dashes, tricolons, and ALL CAPS are tools in his kit — used sparingly
-enough that they remain his rather than slipping into AI cliché.
+long sentences. Em dashes, tricolons, and ALL CAPS are tools in his kit. Used
+sparingly, they remain his; used heavily, they slip into AI cliché.
 
 ### Personality in writing
 
@@ -591,8 +622,11 @@ enough that they remain his rather than slipping into AI cliché.
 ### Sentence structure
 
 **Architecture.** Long sentences (30+ words, multiple subordinate clauses) carry the
-argument. Short sentences (3-10 words) punctuate and emphasize. Aim for ~20% short /
-~50% medium-long / ~30% architectural in extended prose. Wide variance is the goal.
+argument. Short sentences (3-10 words) punctuate and emphasize. Aim for roughly 20%
+short / 50% medium-long / 30% architectural in extended prose. (These percentages are
+approximate, eyeballed across the 5-essay corpus rather than statistically measured.
+The hard requirement is *wide variance*, not a precise mix.) Wide variance is the
+goal — uniform sentence length is the strongest single AI tell after vocabulary.
 
 **Periodic construction.** Delay the verb. Set up subordinate matter first, then
 deliver. "On an anything but extraordinary day, Joe Noggenstein walks into a restaurant
@@ -815,7 +849,8 @@ Guidelines (validated 2026-04-27 against corpus-style author judgment):
 - Architecture compressed: medium and short sentences dominate
 - Light personality breakthroughs OK
 - Greetings: "Hey team," / "Hey [Name]," / topic-first; not formal
-- ALL CAPS rare; reserve for genuine emphasis only
+- ALL CAPS: cap at **0-1 instances per text**, reserved for genuine emphasis only.
+  Per Carve-out 5.
 - Direct close ("ping me directly, not the channel"); no formulaic sign-off
 
 ### Mode 5 (INFERRED, validated by Pass 3 calibration sample 5)
@@ -868,6 +903,14 @@ Best inference:
 ---
 
 ## Format-Specific Guidelines
+
+> **Mode-vs-Format precedence**: the Mode definitions above (Modes 1-7) are the
+> canonical rules. The Format-Specific subsections below are pragmatic
+> per-format checklists derived from the corresponding Mode. If they ever diverge
+> (e.g., a future edit updates one but not the other), the Mode definition is
+> source-of-truth and the Format section should be brought back into sync. When
+> Claude reads them, it should treat the Format-Specific section as a quick-reference
+> view of the Mode, not as a separate ruleset.
 
 ### Essays / blog posts / op-eds
 
@@ -1019,6 +1062,48 @@ When writing for Josh:
       tricolon rhythm, ALL CAPS count).
     - Pass 3 — check for performative writing (manufactured catchphrases, inserted
       Latin, forced register shifts, humanizer-backfire patterns).
-12. **For INFERRED modes (Slack, email, technical, chat, forum)**: produce a draft
-    using the inferred guidelines, but flag uncertainty. These will be calibrated
-    against real Josh-written samples in those formats over time.
+12. **For INFERRED modes (technical, forum)**: produce a draft using the inferred
+    guidelines, but flag uncertainty. Mode 4 (Slack) and Mode 5 (Email) were
+    calibration-validated in Pass 3; Modes 6 and 7 remain unvalidated and will be
+    calibrated against real Josh-written samples in those formats over time.
+13. **Cap-collision tiebreaker**: when carve-out caps would jointly exceed a paragraph
+    or text limit (e.g., a paragraph that "needs" 2 em-dashes AND a tricolon AND
+    ALL CAPS), the most restrictive cap wins. Drop the lowest-value device first —
+    typically ALL CAPS or the second em-dash — and let the others carry the
+    rhetorical weight. The em-dash hard cap (max 2 per paragraph, paired-parenthetical
+    or weighted only) is the floor; never break it to fit more devices in.
+14. **Response shell when invoked**: when Josh asks Claude to write or rewrite in
+    his voice, the output IS the response. Do not preface with "Here's the rewrite:",
+    "Here you go:", "Sure, here's the draft:", or any other meta-frame. Jump straight
+    into the prose. The same applies to Slack/email mode — write the message, not a
+    description of the message.
+
+---
+
+## References
+
+The bans, carve-outs, and confidence rules above draw on peer-reviewed and field
+research compiled into `analysis/llm-tells-research-2026.md` (51 sources). Top
+load-bearing citations:
+
+- **Kobak et al. 2025** — overrepresented vocabulary in LLM-generated text; baseline
+  for Tier-1 verb/adjective/noun/adverb bans.
+- **Liang et al. 2024** (arXiv 2406.07016) — LLM word-frequency study with excess-ratio
+  data; "delve" 25.2× excess.
+- **Pangram Labs, "State of AI Detection 2025"** (pangram.com 2025-12-04) — RLHF
+  annotator-vocabulary origin theory for "delve" / "tapestry"; ICAI presentation.
+- **McGovern et al. 2025** (aclanthology.org/2025.genaidetect-1.6) — peer-reviewed
+  n-gram + POS feature classification of model families; structural-tell evidence.
+- **Wikipedia: Signs of AI writing** (WikiProject AI Cleanup) — descriptive field
+  guide; bold-lead-in bullets, vague attribution, Hollywood endings.
+- **OpenAI em-dash custom-instruction fix** (Business Insider 2025-11-14) — confirms
+  em-dash as a real artifact; informs the position-not-mark distinction in
+  Carve-out 1.
+- **Liz Elliott, "18 Indicators"** (lizontheweb.com 2026-03-31) — "X? A Y." Q+fragment
+  pattern; "Not X. Not Y. Just Z." countdown; false ranges.
+- **myvoicetwin.io 2026-02-17** — Claude vs. GPT vs. Gemini stylometric profiles;
+  Claude-specific tells ("meaningfully", "non-trivial", "particularly elegant").
+
+The full research file with 51 sources lives in the `voice-project/analysis/`
+extraction workspace. This skill is self-contained for execution; readers wanting
+the complete audit trail should consult the analysis file.

@@ -112,7 +112,7 @@ Automatically triggered when drafting written content like:
 - Internal documentation requiring extended prose
 
 Applies Josh's voice characteristics:
-- Long architectural sentences with multiple subordinate clauses, punctuated by short emphatic ones (~20/50/30 short/medium/architectural mix)
+- Long architectural sentences with multiple subordinate clauses, punctuated by short emphatic ones (~20/50/30 short/medium/architectural mix — approximate corpus estimate, not a measured target)
 - Repetition with variation as a paragraph engine ("God is love. God loved. God loves.")
 - Periodic and cumulative constructions; comfort with paradox
 - Old-school paragraph pivots ("Therefore", "Furthermore", "However", "Rather", "Yet")
