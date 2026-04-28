@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g., v1.7.2). Must already exist on the repo.'
+        required: true
+        type: string
 
 jobs:
   release:
